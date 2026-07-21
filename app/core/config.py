@@ -16,6 +16,8 @@ class Settings(BaseSettings):
         "CRITICAL",
     ] = "INFO"
 
+    database_url: str
+
     model_config = SettingsConfigDict(
         case_sensitive=False,
         extra="ignore",
