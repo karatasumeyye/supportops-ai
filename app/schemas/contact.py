@@ -20,15 +20,14 @@ class ContactBase(APIModel):
         max_length=30,
     )
 
+
 class ContactCreate(ContactBase):
     organization_id: uuid.UUID
 
     @model_validator(mode="after")
     def validate_contact_method(self) -> "ContactCreate":
         if self.email is None and self.phone is None:
-            raise ValueError(
-                "Email veya telefon alanlarindan en az biri girilmelidir."
-            )
+            raise ValueError("Email veya telefon alanlarindan en az biri girilmelidir.")
 
         return self
 

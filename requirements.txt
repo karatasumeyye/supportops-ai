@@ -5,3 +5,9 @@ sqlalchemy[asyncio]
 asyncpg
 alembic
 email-validator
+pytest
+pytest-asyncio
+httpx
+pytest-cov
+ruff
+mypy

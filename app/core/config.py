@@ -23,7 +23,7 @@ class Settings(BaseSettings):
         extra="ignore",
     )
 
-
-@lru_cache   # creates a cached version of the function, so that the settings are only loaded once and reused on subsequent calls
+# Cache settings so they are loaded once and reused across the app.
+@lru_cache
 def get_settings() -> Settings:
     return Settings()

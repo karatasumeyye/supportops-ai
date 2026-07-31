@@ -12,7 +12,7 @@ class UserBase(APIModel):
         min_length=2,
         max_length=150,
     )
-    
+
     email: EmailStr
 
 
@@ -23,6 +23,7 @@ class UserCreate(UserBase):
         max_length=128,
     )
     role: UserRole
+
 
 class UserUpdate(APIModel):
     full_name: str | None = Field(
