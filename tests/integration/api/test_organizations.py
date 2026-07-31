@@ -1,7 +1,9 @@
 from httpx import AsyncClient
 
 
-async def test_create_organization(client: AsyncClient,) -> None:
+async def test_create_organization(
+    client: AsyncClient,
+) -> None:
 
     response = await client.post(
         "/api/v1/organizations",
@@ -22,7 +24,9 @@ async def test_create_organization(client: AsyncClient,) -> None:
     assert "updated_at" in response_data
 
 
-async def test_list_organizations(client: AsyncClient,) -> None:
+async def test_list_organizations(
+    client: AsyncClient,
+) -> None:
 
     create_response = await client.post(
         "/api/v1/organizations",
@@ -173,17 +177,17 @@ async def test_update_organization_with_existing_slug_returns_409(
     )
 
 
-async def test_get_nonexistent_organization_returns_404(client: AsyncClient,) -> None:
+async def test_get_nonexistent_organization_returns_404(
+    client: AsyncClient,
+) -> None:
 
     response = await client.get(
-        "/api/v1/organizations/"
-        "00000000-0000-0000-0000-000000000001",
+        "/api/v1/organizations/00000000-0000-0000-0000-000000000001",
     )
 
     assert response.status_code == 404
     assert response.json()["detail"] == (
-        "Organization not found: "
-        "00000000-0000-0000-0000-000000000001"
+        "Organization not found: 00000000-0000-0000-0000-000000000001"
     )
 
 
@@ -197,7 +201,9 @@ async def test_invalid_organization_id_returns_422(
     assert response.status_code == 422
 
 
-async def test_duplicate_slug_returns_409(client: AsyncClient,) -> None:
+async def test_duplicate_slug_returns_409(
+    client: AsyncClient,
+) -> None:
 
     payload = {
         "name": "Acme Support",

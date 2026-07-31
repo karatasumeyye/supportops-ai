@@ -34,7 +34,9 @@ class Contact(UUIDPrimaryKeyMixin, TimestampMixin, Base):
 
     organization_id: Mapped[uuid.UUID] = mapped_column(
         UUID(as_uuid=True),
-        ForeignKey("organizations.id", ondelete="RESTRICT"),  # Restrict deletion of organization if contacts exist
+        ForeignKey(
+            "organizations.id", ondelete="RESTRICT"
+        ),  # Restrict deletion of organization if contacts exist
         nullable=False,
         index=True,
     )
@@ -54,12 +56,14 @@ class Contact(UUIDPrimaryKeyMixin, TimestampMixin, Base):
         nullable=False,
     )
 
-    phone: Mapped[str|None] = mapped_column(  #  write None  if nullable =True  
+    phone: Mapped[str | None] = mapped_column(  #  write None  if nullable =True
         String(20),
         nullable=True,
     )
 
-    is_active: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False, server_default="true")
+    is_active: Mapped[bool] = mapped_column(
+        Boolean, default=True, nullable=False, server_default="true"
+    )
 
     # Relationship to Organization
     organization: Mapped["Organization"] = relationship(
@@ -75,6 +79,8 @@ class Contact(UUIDPrimaryKeyMixin, TimestampMixin, Base):
         back_populates="author_contact",
     )
 
-    support_request_access_tokens: Mapped[list["SupportRequestAccessToken"]] = relationship(
-        back_populates="contact",
-)
+    support_request_access_tokens: Mapped[list["SupportRequestAccessToken"]] = (
+        relationship(
+            back_populates="contact",
+        )
+    )

@@ -8,7 +8,6 @@ from sqlalchemy import (
     String,
     UniqueConstraint,
 )
-
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
@@ -22,8 +21,7 @@ if TYPE_CHECKING:
     from app.models.support_request import SupportRequest
 
 
-
-class User( UUIDPrimaryKeyMixin, TimestampMixin, Base):
+class User(UUIDPrimaryKeyMixin, TimestampMixin, Base):
     __tablename__ = "users"
 
     __table_args__ = (
@@ -37,7 +35,9 @@ class User( UUIDPrimaryKeyMixin, TimestampMixin, Base):
 
     organization_id: Mapped[uuid.UUID] = mapped_column(
         UUID(as_uuid=True),
-        ForeignKey("organizations.id", ondelete="RESTRICT"),  # Restrict deletion of organization if users exist
+        ForeignKey(
+            "organizations.id", ondelete="RESTRICT"
+        ),  # Restrict deletion of organization if users exist
         nullable=False,
         index=True,
     )
@@ -79,9 +79,10 @@ class User( UUIDPrimaryKeyMixin, TimestampMixin, Base):
         server_default="true",
     )
 
-    # Relationships = connect to python classes, not database tables. Use the class name as a string to avoid circular imports.
+    # Use class-name strings here to avoid circular imports.
     organization: Mapped["Organization"] = relationship(
-        back_populates="users",   # This should match the attribute name in the Organization class that refers back to User
+        # This matches the Organization.users relationship name.
+        back_populates="users",
     )
 
     assigned_support_requests: Mapped[list["SupportRequest"]] = relationship(

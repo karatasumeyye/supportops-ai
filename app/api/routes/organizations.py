@@ -12,7 +12,6 @@ from app.schemas.organization import (
 )
 from app.services.organization import OrganizationService
 
-
 router = APIRouter(
     prefix="/organizations",
     tags=["Organizations"],

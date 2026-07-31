@@ -13,14 +13,16 @@ settings = get_settings()
 # database subsystem configuration
 engine = create_async_engine(
     settings.database_url,
-    pool_pre_ping=True,   # control the behavior of the connection pool to check if a connection is still valid before using it
+    # Check pooled connections before use to avoid stale connections.
+    pool_pre_ping=True,
 )
 
 # create a session factory that will be used to create new database sessions
 AsyncSessionFactory = async_sessionmaker(
     bind=engine,
     class_=AsyncSession,
-    expire_on_commit=False,  # Prevents fields in ORM objects from immediately becoming invalid after a commit
+    # Keep ORM fields accessible after commit within request scope.
+    expire_on_commit=False,
 )
 
 

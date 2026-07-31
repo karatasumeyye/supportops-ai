@@ -21,9 +21,7 @@ class AccessTokenCreate(APIModel):
         now = datetime.now(timezone.utc)
 
         if value <= now:
-            raise ValueError(
-                "Token expiration time must be in the future."
-            )
+            raise ValueError("Token expiration time must be in the future.")
 
         return value
 

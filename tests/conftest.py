@@ -41,14 +41,11 @@ load_test_env()
 
 TEST_DATABASE_URL = os.getenv("TEST_DATABASE_URL")
 if not TEST_DATABASE_URL:
-    raise RuntimeError(
-        "TEST_DATABASE_URL environment variable is not configured."
-    )
+    raise RuntimeError("TEST_DATABASE_URL environment variable is not configured.")
 
 os.environ["DATABASE_URL"] = TEST_DATABASE_URL
 
 from app.main import create_application  # noqa: E402
-
 
 test_engine = create_async_engine(
     TEST_DATABASE_URL,
@@ -110,9 +107,7 @@ async def client(
     ]:
         yield db_session
 
-    application.dependency_overrides[get_db_session] = (
-        override_get_db_session
-    )
+    application.dependency_overrides[get_db_session] = override_get_db_session
 
     transport = ASGITransport(app=application)
 
