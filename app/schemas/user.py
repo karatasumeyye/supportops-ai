@@ -3,7 +3,7 @@ from datetime import datetime
 
 from pydantic import EmailStr, Field
 
-from app.models.user import UserRole
+from app.models.enums import UserRole
 from app.schemas.base import APIModel
 
 
@@ -17,7 +17,6 @@ class UserBase(APIModel):
 
 
 class UserCreate(UserBase):
-    organization_id: uuid.UUID
     password: str = Field(
         min_length=8,
         max_length=128,
@@ -31,9 +30,13 @@ class UserUpdate(APIModel):
         min_length=2,
         max_length=150,
     )
-
+    email: EmailStr | None = None
+    password: str | None = Field(
+        default=None,
+        min_length=8,
+        max_length=128,
+    )
     role: UserRole | None = None
-
     is_active: bool | None = None
 
 

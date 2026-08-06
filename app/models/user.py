@@ -25,11 +25,9 @@ class User(UUIDPrimaryKeyMixin, TimestampMixin, Base):
     __tablename__ = "users"
 
     __table_args__ = (
-        # cannot have two users with the same normalized email in the same organization
         UniqueConstraint(
-            "organization_id",
             "normalized_email",
-            name="uq_users_organization_normalized_email",
+            name="uq_users_normalized_email",
         ),
     )
 
@@ -48,12 +46,12 @@ class User(UUIDPrimaryKeyMixin, TimestampMixin, Base):
     )
 
     email: Mapped[str] = mapped_column(
-        String(255),
+        String(320),
         nullable=False,
     )
 
     normalized_email: Mapped[str] = mapped_column(
-        String(255),
+        String(320),
         nullable=False,
     )
 
@@ -68,8 +66,8 @@ class User(UUIDPrimaryKeyMixin, TimestampMixin, Base):
             name="user_role",
         ),
         nullable=False,
-        default=UserRole.SUPPORT_AGENT,
-        server_default=UserRole.SUPPORT_AGENT.value,
+        default=UserRole.AGENT,
+        server_default=UserRole.AGENT.value,
     )
 
     is_active: Mapped[bool] = mapped_column(

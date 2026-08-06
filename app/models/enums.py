@@ -2,8 +2,9 @@ from enum import Enum
 
 
 class UserRole(str, Enum):
+    OWNER = "OWNER"
     ADMIN = "ADMIN"
-    SUPPORT_AGENT = "SUPPORT_AGENT"
+    AGENT = "AGENT"
 
 
 class SupportRequestStatus(str, Enum):
