@@ -33,9 +33,7 @@ class UserService:
 
         existing_user = await self.user_repository.get_by_email(normalized_email)
         if existing_user is not None:
-            raise ConflictError(
-                f"User email already exists: {normalized_email}"
-            )
+            raise ConflictError(f"User email already exists: {normalized_email}")
 
         password_hash = self._hash_password(user_data.password)
 
@@ -88,13 +86,9 @@ class UserService:
 
         if "email" in updates:
             normalized_email = self._normalize_email(updates["email"])
-            existing_user = await self.user_repository.get_by_email(
-                normalized_email
-            )
+            existing_user = await self.user_repository.get_by_email(normalized_email)
             if existing_user is not None and existing_user.id != user.id:
-                raise ConflictError(
-                    f"User email already exists: {normalized_email}"
-                )
+                raise ConflictError(f"User email already exists: {normalized_email}")
 
             updates["email"] = normalized_email
             updates["normalized_email"] = normalized_email
@@ -139,13 +133,9 @@ class UserService:
         return updated_user
 
     async def _get_organization(self, organization_id: UUID) -> Organization:
-        organization = await self.organization_repository.get_by_id(
-            organization_id
-        )
+        organization = await self.organization_repository.get_by_id(organization_id)
         if organization is None:
-            raise NotFoundError(
-                f"Organization not found: {organization_id}"
-            )
+            raise NotFoundError(f"Organization not found: {organization_id}")
 
         return organization
 
@@ -155,9 +145,7 @@ class UserService:
     ) -> Organization:
         organization = await self._get_organization(organization_id)
         if not organization.is_active:
-            raise ConflictError(
-                f"Organization is inactive: {organization_id}"
-            )
+            raise ConflictError(f"Organization is inactive: {organization_id}")
 
         return organization
 
@@ -175,9 +163,7 @@ class UserService:
             return
 
         deactivating_owner = is_active_change is False
-        demoting_owner = (
-            role_change is not None and role_change != UserRole.OWNER
-        )
+        demoting_owner = role_change is not None and role_change != UserRole.OWNER
 
         if not deactivating_owner and not demoting_owner:
             return
@@ -186,9 +172,7 @@ class UserService:
             organization_id
         )
         if active_owner_count <= 1:
-            raise ConflictError(
-                "Last active owner cannot be deactivated or demoted."
-            )
+            raise ConflictError("Last active owner cannot be deactivated or demoted.")
 
     def _normalize_email(self, email: object) -> str:
         return str(email).strip().lower()
