@@ -6,6 +6,7 @@ from app.schemas.access_token import (
 )
 from app.schemas.contact import (
     ContactCreate,
+    ContactListResponse,
     ContactResponse,
     ContactUpdate,
 )
@@ -34,6 +35,7 @@ from app.schemas.user import (
 
 __all__ = [
     "ContactCreate",
+    "ContactListResponse",
     "ContactResponse",
     "ContactUpdate",
     "OrganizationCreate",

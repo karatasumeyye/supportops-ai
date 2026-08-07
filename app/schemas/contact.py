@@ -16,18 +16,16 @@ class ContactBase(APIModel):
 
     phone: str | None = Field(
         default=None,
-        min_length=7,
-        max_length=30,
+        min_length=1,
+        max_length=32,
     )
 
 
 class ContactCreate(ContactBase):
-    organization_id: uuid.UUID
-
     @model_validator(mode="after")
     def validate_contact_method(self) -> "ContactCreate":
         if self.email is None and self.phone is None:
-            raise ValueError("Email veya telefon alanlarindan en az biri girilmelidir.")
+            raise ValueError("At least one of email or phone must be provided.")
 
         return self
 
@@ -43,11 +41,9 @@ class ContactUpdate(APIModel):
 
     phone: str | None = Field(
         default=None,
-        min_length=7,
-        max_length=30,
+        min_length=1,
+        max_length=32,
     )
-
-    is_active: bool | None = None
 
 
 class ContactResponse(ContactBase):
@@ -56,3 +52,10 @@ class ContactResponse(ContactBase):
     is_active: bool
     created_at: datetime
     updated_at: datetime
+
+
+class ContactListResponse(APIModel):
+    items: list[ContactResponse]
+    total: int
+    limit: int
+    offset: int
