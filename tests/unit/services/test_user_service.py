@@ -233,8 +233,7 @@ async def test_validate_owner_transition_skips_non_owner_users() -> None:
     user_repository.count_active_owners.assert_not_called()
 
 
-async def test_validate_owner_transition_raises_for_last_active_owner_deactivation(
-) -> None:
+async def test_last_owner_deactivation_raises_conflict() -> None:
     service, _, user_repository, _ = build_service()
     organization_id = uuid4()
     owner = build_user(role=UserRole.OWNER)
