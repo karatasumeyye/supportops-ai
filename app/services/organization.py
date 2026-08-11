@@ -39,10 +39,7 @@ class OrganizationService:
             organization_payload,
         )
 
-        await (
-            self.session.commit()
-        )  # Commit the transaction to persist the changes to the database
-        await self.session.refresh(organization)
+        await self.session.commit()
 
         return organization
 
@@ -93,9 +90,9 @@ class OrganizationService:
         )
 
         await self.session.commit()
-        await self.session.refresh(updated_organization)
-
-        return updated_organization
+        reloaded_organization = await self.repository.get_by_id(updated_organization.id)
+        assert reloaded_organization is not None
+        return reloaded_organization
 
     def _generate_slug(self, name: str) -> str:
         slug = re.sub(r"[^a-z0-9]+", "-", name.lower()).strip("-")

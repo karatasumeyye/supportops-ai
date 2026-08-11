@@ -22,7 +22,10 @@ from app.schemas.request_message import (
     RequestMessageResponse,
 )
 from app.schemas.support_request import (
+    SupportRequestAssign,
     SupportRequestCreate,
+    SupportRequestCreateResponse,
+    SupportRequestListResponse,
     SupportRequestResponse,
     SupportRequestStatusUpdate,
     SupportRequestUpdate,
@@ -45,6 +48,9 @@ __all__ = [
     "UserResponse",
     "UserUpdate",
     "SupportRequestCreate",
+    "SupportRequestCreateResponse",
+    "SupportRequestListResponse",
+    "SupportRequestAssign",
     "SupportRequestResponse",
     "SupportRequestStatusUpdate",
     "SupportRequestUpdate",
