@@ -71,7 +71,7 @@ class ContactRepository:
             organization_id=organization_id,
             is_active=is_active,
             search=search,
-        ).order_by(Contact.created_at.desc())
+        ).order_by(Contact.created_at.desc(), Contact.id.desc())
         query = query.offset(offset).limit(limit)
         result = await self.session.execute(query)
         return list(result.scalars().all())

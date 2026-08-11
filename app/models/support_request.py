@@ -6,6 +6,7 @@ from sqlalchemy import (
     DateTime,
     Enum,
     ForeignKey,
+    Index,
     String,
     UniqueConstraint,
 )
@@ -14,7 +15,6 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.db.base import Base
 from app.models.enums import (
-    SupportRequestChannel,
     SupportRequestPriority,
     SupportRequestStatus,
 )
@@ -40,6 +40,31 @@ class SupportRequest(
             "organization_id",
             "request_number",
             name="uq_support_requests_organization_request_number",
+        ),
+        Index(
+            "ix_support_requests_organization_id_created_at",
+            "organization_id",
+            "created_at",
+        ),
+        Index(
+            "ix_support_requests_organization_id_status",
+            "organization_id",
+            "status",
+        ),
+        Index(
+            "ix_support_requests_organization_id_priority",
+            "organization_id",
+            "priority",
+        ),
+        Index(
+            "ix_support_requests_organization_id_assigned_user_id",
+            "organization_id",
+            "assigned_user_id",
+        ),
+        Index(
+            "ix_support_requests_organization_id_contact_id",
+            "organization_id",
+            "contact_id",
         ),
     )
 
@@ -103,19 +128,6 @@ class SupportRequest(
         default=SupportRequestPriority.MEDIUM,
         server_default=SupportRequestPriority.MEDIUM.value,
         index=True,
-    )
-
-    channel: Mapped[SupportRequestChannel] = mapped_column(
-        Enum(
-            SupportRequestChannel,
-            name="support_request_channel",
-        ),
-        nullable=False,
-    )
-
-    external_reference: Mapped[str | None] = mapped_column(
-        String(255),
-        nullable=True,
     )
 
     resolved_at: Mapped[datetime | None] = mapped_column(

@@ -47,7 +47,6 @@ class UserService:
         )
 
         await self.session.commit()
-        await self.session.refresh(user)
         return user
 
     async def get_user(
@@ -105,8 +104,12 @@ class UserService:
 
         updated_user = await self.user_repository.update(user, updates)
         await self.session.commit()
-        await self.session.refresh(updated_user)
-        return updated_user
+        reloaded_user = await self.user_repository.get_by_id_and_organization(
+            updated_user.id,
+            organization.id,
+        )
+        assert reloaded_user is not None
+        return reloaded_user
 
     async def deactivate_user(
         self,
@@ -129,8 +132,12 @@ class UserService:
             {"is_active": False},
         )
         await self.session.commit()
-        await self.session.refresh(updated_user)
-        return updated_user
+        reloaded_user = await self.user_repository.get_by_id_and_organization(
+            updated_user.id,
+            organization_id,
+        )
+        assert reloaded_user is not None
+        return reloaded_user
 
     async def _get_organization(self, organization_id: UUID) -> Organization:
         organization = await self.organization_repository.get_by_id(organization_id)

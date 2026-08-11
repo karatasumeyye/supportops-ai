@@ -10,6 +10,7 @@ if TYPE_CHECKING:
     from app.models.contact import Contact
     from app.models.support_request import SupportRequest
     from app.models.support_request_access_token import SupportRequestAccessToken
+    from app.models.support_request_sequence import SupportRequestSequence
     from app.models.user import User
 
 
@@ -34,6 +35,10 @@ class Organization(UUIDPrimaryKeyMixin, TimestampMixin, Base):
     )
 
     support_requests: Mapped[list["SupportRequest"]] = relationship(
+        back_populates="organization",
+    )
+
+    support_request_sequence: Mapped["SupportRequestSequence | None"] = relationship(
         back_populates="organization",
     )
 

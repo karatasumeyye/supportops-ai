@@ -43,7 +43,6 @@ class ContactService:
         )
 
         await self.session.commit()
-        await self.session.refresh(contact)
         return contact
 
     async def get_contact(
@@ -124,8 +123,12 @@ class ContactService:
 
         updated_contact = await self.contact_repository.update(contact, updates)
         await self.session.commit()
-        await self.session.refresh(updated_contact)
-        return updated_contact
+        reloaded_contact = await self.contact_repository.get_by_id_and_organization(
+            updated_contact.id,
+            organization.id,
+        )
+        assert reloaded_contact is not None
+        return reloaded_contact
 
     async def deactivate_contact(
         self,
@@ -143,8 +146,12 @@ class ContactService:
             {"is_active": False},
         )
         await self.session.commit()
-        await self.session.refresh(updated_contact)
-        return updated_contact
+        reloaded_contact = await self.contact_repository.get_by_id_and_organization(
+            updated_contact.id,
+            organization_id,
+        )
+        assert reloaded_contact is not None
+        return reloaded_contact
 
     async def _get_organization(self, organization_id: UUID) -> Organization:
         organization = await self.organization_repository.get_by_id(organization_id)
