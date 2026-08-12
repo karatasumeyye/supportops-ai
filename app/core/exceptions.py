@@ -15,3 +15,8 @@ class NotFoundError(AppError):
 class ConflictError(AppError):
     status_code = 409
     default_message = "Resource conflict."
+
+
+class UnprocessableEntityError(AppError):
+    status_code = 422
+    default_message = "Request validation failed."
