@@ -16,10 +16,11 @@ from app.schemas.organization import (
     OrganizationUpdate,
 )
 from app.schemas.request_message import (
-    AgentReplyCreate,
-    CustomerMessageCreate,
-    InternalNoteCreate,
+    ContactMessageCreate,
+    RequestMessageCreate,
+    RequestMessageListResponse,
     RequestMessageResponse,
+    UserMessageCreate,
 )
 from app.schemas.support_request import (
     SupportRequestAssign,
@@ -54,10 +55,11 @@ __all__ = [
     "SupportRequestResponse",
     "SupportRequestStatusUpdate",
     "SupportRequestUpdate",
-    "AgentReplyCreate",
-    "CustomerMessageCreate",
-    "InternalNoteCreate",
+    "ContactMessageCreate",
+    "UserMessageCreate",
+    "RequestMessageCreate",
     "RequestMessageResponse",
+    "RequestMessageListResponse",
     "AccessTokenCreate",
     "AccessTokenCreatedResponse",
     "AccessTokenResponse",

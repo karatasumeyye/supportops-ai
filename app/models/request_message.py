@@ -1,7 +1,7 @@
 import uuid
 from typing import TYPE_CHECKING
 
-from sqlalchemy import CheckConstraint, Enum, ForeignKey, Text
+from sqlalchemy import CheckConstraint, Enum, ForeignKey, Index, Text
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
@@ -44,6 +44,12 @@ class RequestMessage(
             )
             """,
             name="ck_request_messages_valid_author",
+        ),
+        Index(
+            "ix_request_messages_support_request_id_created_at_id",
+            "support_request_id",
+            "created_at",
+            "id",
         ),
     )
 
